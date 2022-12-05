@@ -2,9 +2,7 @@ package com.example;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
 
@@ -28,15 +26,13 @@ public class FelineTest {
     public void getKittens() {
         int actual = feline.getKittens();
         int expected = 1;
-
         assertEquals(expected, actual);
     }
 
     @Test
     public void eatMeat() throws Exception {
-        List<String> list = feline.eatMeat();
-        int actual = list.size();
-        int expected = 3;
+        List<String> actual = feline.eatMeat();
+        List<String> expected = List.of("Животные", "Птицы", "Рыба");
         assertEquals(expected, actual);
     }
 

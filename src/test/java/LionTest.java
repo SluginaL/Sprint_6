@@ -1,8 +1,7 @@
 package com.example;
 
 import java.util.List;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+
 import org.junit.Before;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,7 +9,7 @@ import org.mockito.Mock;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 
@@ -23,8 +22,6 @@ public class LionTest {
     @Mock
     private Feline feline;
 
-    @Rule
-    public final ExpectedException except = ExpectedException.none();
 
     @Before
     public void createNewObj() throws Exception {
@@ -53,27 +50,16 @@ public class LionTest {
     public void getFood() throws Exception {
 
         Mockito.when(feline.getFood("Хищник")).thenReturn(List.of("Животные", "Птицы", "Рыба"));
-        List<String> actual = lion.getFood();
         List<String> expected = List.of("Животные", "Птицы", "Рыба");
-
-        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(expected, lion.getFood());
     }
 
     @Test
-    public void exceptNullPointerException() {
-        except.expect(NullPointerException.class);
-        throw new NullPointerException();
-    }
-
-    @Test
-    public void expectExceptionMessage() throws Exception  {
-        except.expectMessage(exceptionMessage);
-        Lion lion = new Lion(invalidGender,feline);
-
-
+    public void whenExceptionThrown_thenAssertionSucceeds() {
+        Exception exception = assertThrows(Exception.class, () -> {
+            Lion lion = new Lion(invalidGender, feline);
+        });
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(exceptionMessage));
     }
 }
-
-
-
-
